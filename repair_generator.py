@@ -52,12 +52,12 @@ class BD():
             self.mean_vector[i] = mean_vec_x
 
     def filter(self, xs, ys):
-        result = [0] * len(ys)
+        result = [False] * len(ys)
         for i, (x, y) in enumerate(zip(xs, ys)):
             if normalized_mutual_info_score(
                     self.mean_vector.get(y),
                     x) < self.treshold.get(y):
-                result[i] = 1
+                result[i] = True
         return result
 
     def get_result(self, y_predict, idx):
@@ -88,6 +88,7 @@ def main():
     # Third Step -> return correct label
     label = bd.get_result(y_test_predict, idx)
     print(label.tolist())
+    print(sum(idx), " ", len(label))
     
 
 
