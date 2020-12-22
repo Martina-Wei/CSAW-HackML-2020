@@ -33,13 +33,8 @@ This repo is for repairing BD which is a challeng from CSAW-HackML-2021 [here] (
       E.g., `python3 eval.py data/clean_validation_data.h5  models/sunglasses_bd_net.h5`.
       
       
-    2. For the first bd model, BD1 (sunglasses_bd), the clean validataion & clean test are provided, so we can use velidation data to         construct a filter.
-      First, we can get parameter from 
-      `python3 bd1.py <model path> -m <mode> -v <clean validation data directory> -t <clean test data directory>`
-      
-      E.g., `python3 bd1.py models/sunglasses_bd_net.h5 -m repair -v data/clean_validation_data.h5 -t data/clean_test_data.h5`
-      Then, we can get evaluation by 
-       `python3 bd1.py <model path> -m <mode> -v <clean validation data directory> -t <clean test data directory> -n <lower bound> -p <poisoned data>`
+   2. For the first bd model, BD1 (sunglasses_bd), the clean validataion & clean test are provided, so we can use velidation data to construct a filter.
+       `python3 bd1.py <model path> -m <mode==pca/mi> -v <clean validation data directory> -t <clean test data directory> -n <lower bound> -p <poisoned data>`
 
-      E.g., `python3 bd1.py models/sunglasses_bd_net.h5 -m evaluate -v data/clean_validation_data.h5 -t data/clean_test_data.h5 -n 0.71 -p data/sunglasses_poisoned_data.h5`
+      E.g., `python3 repair_generator.py models/multi_trigger_multi_target_bd_net.h5 -v data/clean_validation_data.h5  -t data/lipstick_poisoned_data.h5 -m pca > result`
    
