@@ -16,7 +16,6 @@ parser.add_argument("bd_model", help="bad model")
 # parser.add_argument("-n", help="treshold", type=float, dest="treshold")
 parser.add_argument("-v", "--validate", dest="validate_data_path")
 parser.add_argument("-t", "--test", dest="test_data_path")
-parser.add_argument("-p", "--poisoned", dest="poisoned_data_path")
 parser.add_argument("-m", "--mode", dest="mode", default="repair")
 
 args = parser.parse_args()
@@ -61,7 +60,7 @@ class BD():
         return result
 
     def get_result(self, y_predict, idx):
-        y_predict[idx] = N_class+1
+        y_predict[idx] = N_class
         return y_predict
 
 
@@ -73,23 +72,19 @@ def main():
     x_vali, y_vali = load_data(args.validate_data_path)
 
     # First Step -> get treshold
-
-    vector_validation_x = bd.load_vector(x_vali)  # bd.data_to_vector(x_vali)
-    # vector_poisoned_x = bd.data_to_vector(x_poisoned)
-
+    vector_validation_x = bd.load_vector(x_vali)
     bd.get_treshold(vector_validation_x, y_vali)
-    
+
     # Second Step -> filter poisoned
     x_test, y_test = load_data(args.test_data_path)
     y_test_predict = np.argmax(original_bd.predict(x_test), axis=1).reshape(-1)
     vector_test_x = bd.load_vector(x_test)
     idx = bd.filter(vector_test_x, y_test_predict.tolist())
-    
+
     # Third Step -> return correct label
     label = bd.get_result(y_test_predict, idx)
     print(label.tolist())
-    print(sum(idx), " ", len(label))
-    
+    # print(sum(idx), " ", len(label))
 
 
 if __name__ == '__main__':
